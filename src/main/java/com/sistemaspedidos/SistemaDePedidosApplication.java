@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.sistemaspedidos.domain.Categoria;
 import com.sistemaspedidos.domain.Cidade;
+import com.sistemaspedidos.domain.Cliente;
+import com.sistemaspedidos.domain.Endereco;
 import com.sistemaspedidos.domain.Estado;
 import com.sistemaspedidos.domain.Produto;
+import com.sistemaspedidos.enuns.TipoCliente;
 import com.sistemaspedidos.repositories.CategoriaRepository;
 import com.sistemaspedidos.repositories.CidadeRepository;
+import com.sistemaspedidos.repositories.ClienteRepository;
+import com.sistemaspedidos.repositories.EnderecoRepository;
 import com.sistemaspedidos.repositories.EstadoRepository;
 import com.sistemaspedidos.repositories.ProdutoRepository;
 
@@ -31,6 +36,10 @@ public class SistemaDePedidosApplication implements CommandLineRunner{
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	@Autowired
+	ClienteRepository clienteRepository;
+	@Autowired
+	EnderecoRepository enderecoRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -69,6 +78,21 @@ public class SistemaDePedidosApplication implements CommandLineRunner{
 		
 		estadoRepository.saveAll(Arrays.asList(estado1, estado2));
 		cidadeRepository.saveAll(Arrays.asList(cidade1, cidade2, cidade3));
+		
+		//CLIENTE
+		Cliente cliente1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		
+		//TELEFONE
+		cliente1.getTelefones().addAll(Arrays.asList("(67) 9911-5577", "(67) 8851-888"));
+		
+		//ENDERECO
+		Endereco endereco1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardin", "38220834", cliente1, cidade1);
+		Endereco endereco2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cliente1, cidade2);
+        
+		cliente1.getEnderecos().addAll(Arrays.asList(endereco1, endereco2));
+	
+	    clienteRepository.saveAll(Arrays.asList(cliente1));
+	    enderecoRepository.saveAll(Arrays.asList(endereco1, endereco2));
 	}
 
 }
