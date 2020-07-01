@@ -13,6 +13,7 @@ import com.sistemaspedidos.domain.Cidade;
 import com.sistemaspedidos.domain.Cliente;
 import com.sistemaspedidos.domain.Endereco;
 import com.sistemaspedidos.domain.Estado;
+import com.sistemaspedidos.domain.ItemPedido;
 import com.sistemaspedidos.domain.Pagamento;
 import com.sistemaspedidos.domain.PagamentoComBoleto;
 import com.sistemaspedidos.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.sistemaspedidos.repositories.CidadeRepository;
 import com.sistemaspedidos.repositories.ClienteRepository;
 import com.sistemaspedidos.repositories.EnderecoRepository;
 import com.sistemaspedidos.repositories.EstadoRepository;
+import com.sistemaspedidos.repositories.ItemPedidoRepository;
 import com.sistemaspedidos.repositories.PagamentoRepository;
 import com.sistemaspedidos.repositories.PedidoRepository;
 import com.sistemaspedidos.repositories.ProdutoRepository;
@@ -52,6 +54,10 @@ public class SistemaDePedidosApplication implements CommandLineRunner{
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
+	
+	
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -121,6 +127,21 @@ public class SistemaDePedidosApplication implements CommandLineRunner{
 	    
 	    pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 	    pagamentoRepository.saveAll(Arrays.asList(pagto1 , pagto2));
+	    
+	    //ITEMP EDIDO
+	    
+	    ItemPedido ip1 = new ItemPedido(ped1, prod1, 0.00, 1, 2000.00);
+	    ItemPedido ip2 = new ItemPedido(ped1, prod3, 0.00, 2, 80.00);
+	    ItemPedido ip3 = new ItemPedido(ped2, prod2, 100.00, 1, 800.00);
+	    
+	    ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+	    ped1.getItens().addAll(Arrays.asList(ip3));
+	    
+	    prod1.getItens().addAll(Arrays.asList(ip1));
+	    prod2.getItens().addAll(Arrays.asList(ip3));
+	    prod3.getItens().addAll(Arrays.asList(ip2));
+	    
+	    itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 
 }
