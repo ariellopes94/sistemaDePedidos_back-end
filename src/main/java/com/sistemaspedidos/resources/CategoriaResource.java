@@ -1,6 +1,8 @@
 package com.sistemaspedidos.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sistemaspedidos.domain.Categoria;
+import com.sistemaspedidos.domain.dto.CategoriaDTO;
 import com.sistemaspedidos.services.CategoriaService;
 
 @RestController
@@ -54,4 +57,10 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 	}
 
+	@GetMapping
+	public ResponseEntity<List<CategoriaDTO>> findAll(){
+		List<Categoria> listObj = categoriaService.findAll();
+		List<CategoriaDTO> listObjDto = listObj.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listObjDto);
+	}
 }

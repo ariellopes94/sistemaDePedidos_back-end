@@ -33,7 +33,7 @@ public class ResourceExceptionHandler {
 	
 		StandardError erro = new StandardError();
 		erro.setTitulo(e.getMessage());
-		erro.setStatus(400);
+		erro.setStatus(400l);
 		erro.setMensagemDesenvolvedor("http://erros.sistemapedidos.com/400");
 		erro.setTime(System.currentTimeMillis());
 		
