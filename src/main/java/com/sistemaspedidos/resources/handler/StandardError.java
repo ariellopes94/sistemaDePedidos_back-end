@@ -1,11 +1,26 @@
 package com.sistemaspedidos.resources.handler;
 
-public class StandardError {
+import java.io.Serializable;
 
+public class StandardError implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private String titulo;
 	private Long status;
 	private Long time;
 	private String mensagemDesenvolvedor;
+	
+	public StandardError() {
+	}
+	
+	public StandardError(String titulo, Long status, Long time, String mensagemDesenvolvedor) {
+		super();
+		this.titulo = titulo;
+		this.status = status;
+		this.time = time;
+		this.mensagemDesenvolvedor = mensagemDesenvolvedor;
+	}
+	
 	public String getTitulo() {
 		return titulo;
 	}
