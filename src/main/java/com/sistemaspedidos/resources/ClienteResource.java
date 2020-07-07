@@ -1,5 +1,6 @@
 package com.sistemaspedidos.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,14 +12,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sistemaspedidos.domain.Cliente;
 import com.sistemaspedidos.domain.dto.ClienteDTO;
+import com.sistemaspedidos.domain.dto.ClienteNewDTO;
 import com.sistemaspedidos.services.ClienteService;
 
 @RestController
@@ -41,6 +45,16 @@ public class ClienteResource {
 		 categoria.setId(id);
 		 clienteService.update(categoria);
 		 return ResponseEntity.noContent().build();
+	}
+	
+	@PostMapping
+	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO clienteDto){
+		Cliente obj = clienteService.fromDTO(clienteDto);
+		obj = clienteService.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				  .path("/{id}").buildAndExpand(obj.getId()).toUri();
+		
+		return ResponseEntity.created(uri).build();
 	}
 	
 	@DeleteMapping(value="/{id}")
