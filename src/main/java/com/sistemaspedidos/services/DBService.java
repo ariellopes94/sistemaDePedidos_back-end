@@ -20,6 +20,7 @@ import com.sistemaspedidos.domain.PagamentoComCartao;
 import com.sistemaspedidos.domain.Pedido;
 import com.sistemaspedidos.domain.Produto;
 import com.sistemaspedidos.enuns.EstadoPagamento;
+import com.sistemaspedidos.enuns.Perfil;
 import com.sistemaspedidos.enuns.TipoCliente;
 import com.sistemaspedidos.repositories.CategoriaRepository;
 import com.sistemaspedidos.repositories.CidadeRepository;
@@ -119,10 +120,15 @@ public class DBService {
 			cidadeRepository.saveAll(Arrays.asList(cidade1, cidade2, cidade3));
 			
 			//CLIENTE
-			Cliente cliente1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, passwordEncoder.encode("123") );
-			
+			Cliente cliente1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA, passwordEncoder.encode("123") );	
 			//TELEFONE
 			cliente1.getTelefones().addAll(Arrays.asList("(67) 9911-5577", "(67) 8851-888"));
+			
+			//CLIENTE2
+			Cliente cliente2= new Cliente(null, "Ana", "ana@gmail.com", "18567961084", TipoCliente.PESSOAFISICA, passwordEncoder.encode("123") );	
+			//TELEFONE
+			cliente2.addPerfil(Perfil.ADMIN);
+			cliente2.getTelefones().addAll(Arrays.asList("(67) 9911-5577", "(67) 8851-888"));
 			
 			//ENDERECO
 			Endereco endereco1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardin", "38220834", cliente1, cidade1);
