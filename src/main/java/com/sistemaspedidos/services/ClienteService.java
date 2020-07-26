@@ -17,9 +17,12 @@ import com.sistemaspedidos.domain.Cliente;
 import com.sistemaspedidos.domain.Endereco;
 import com.sistemaspedidos.domain.dto.ClienteDTO;
 import com.sistemaspedidos.domain.dto.ClienteNewDTO;
+import com.sistemaspedidos.enuns.Perfil;
 import com.sistemaspedidos.enuns.TipoCliente;
 import com.sistemaspedidos.repositories.ClienteRepository;
 import com.sistemaspedidos.repositories.EnderecoRepository;
+import com.sistemaspedidos.security.UserSpringSecurity;
+import com.sistemaspedidos.services.exceptions.AuthorizationException;
 import com.sistemaspedidos.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -37,6 +40,12 @@ public class ClienteService {
 	}
 	
 	public Cliente findById(Integer id){
+		
+		UserSpringSecurity user = UserService.authenticated();
+		
+		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		Optional<Cliente> obj = clienteRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Paciente não encontrado!"));
 	}

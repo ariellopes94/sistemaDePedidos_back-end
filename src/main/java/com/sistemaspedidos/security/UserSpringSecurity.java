@@ -32,7 +32,7 @@ public class UserSpringSecurity implements UserDetails {
 
 
 
-	public Integer gedId() {
+	public Integer getId() {
 		return id;
 	}
 	

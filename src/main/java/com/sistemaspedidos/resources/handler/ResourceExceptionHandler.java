@@ -4,11 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.sistemaspedidos.services.exceptions.AuthorizationException;
 import com.sistemaspedidos.services.exceptions.DataIntegrityException;
 import com.sistemaspedidos.services.exceptions.ObjectNotFoundException;
 import com.sistemaspedidos.services.exceptions.ValidationError;
@@ -60,6 +62,19 @@ public class ResourceExceptionHandler {
 		erro.setTime(System.currentTimeMillis());
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+	}
+	
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<StandardError> authorization(AuthorizationException e,
+			                                                            HttpServletRequest request){
+	
+		StandardError erro = new StandardError();
+		erro.setTitulo(e.getMessage());
+		erro.setStatus(401l);
+		erro.setMensagemDesenvolvedor("http://erros.sistemapedidos.com/401");
+		erro.setTime(System.currentTimeMillis());
+		
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erro);
 	}
 	
 }
