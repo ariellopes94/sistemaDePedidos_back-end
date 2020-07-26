@@ -136,7 +136,7 @@ public class DBService {
 	        
 			cliente1.getEnderecos().addAll(Arrays.asList(endereco1, endereco2));
 		
-		    clienteRepository.saveAll(Arrays.asList(cliente1));
+		    clienteRepository.saveAll(Arrays.asList(cliente1 , cliente2));
 		    enderecoRepository.saveAll(Arrays.asList(endereco1, endereco2));
 		    
 		    //PEDIDO
