@@ -23,10 +23,15 @@ public class ResourceExceptionHandler {
 			                                                            HttpServletRequest request){
 	
 		StandardError erro = new StandardError();
-		erro.setTitulo(e.getMessage());
-		erro.setStatus(404l);
+		erro.setTimestamp(System.currentTimeMillis());
+		erro.setStatus(404);
+		erro.setError("Não encontrado");
+		erro.setMessage(e.getMessage());
+		erro.setPath(request.getRequestURI());
 		erro.setMensagemDesenvolvedor("http://erros.sistemapedidos.com/404");
-		erro.setTime(System.currentTimeMillis());
+		
+		
+	
 		
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erro);
 	}
@@ -35,12 +40,16 @@ public class ResourceExceptionHandler {
 	@ExceptionHandler(DataIntegrityException.class)
 	public ResponseEntity<StandardError> dataIntegrityException(DataIntegrityException e,
 			                                                            HttpServletRequest request){
-	
+		
+		
 		StandardError erro = new StandardError();
-		erro.setTitulo(e.getMessage());
-		erro.setStatus(400l);
+		erro.setTimestamp(System.currentTimeMillis());
+		erro.setStatus(400);
+		erro.setError("Integridade de dados");
+		erro.setMessage(e.getMessage());
+		erro.setPath(request.getRequestURI());
 		erro.setMensagemDesenvolvedor("http://erros.sistemapedidos.com/400");
-		erro.setTime(System.currentTimeMillis());
+	
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
 	}
@@ -55,13 +64,16 @@ public class ResourceExceptionHandler {
 		   erro.addError(x.getField(), x.getDefaultMessage());
 	   }
 			
-			
-		erro.setTitulo("Erro de Validação");
-		erro.setStatus(400l);
-		erro.setMensagemDesenvolvedor("http://erros.sistemapedidos.com/400");
-		erro.setTime(System.currentTimeMillis());
+	   
+		erro.setTimestamp(System.currentTimeMillis());
+		erro.setStatus(422);
+		erro.setError("Erro de Validação");
+		erro.setMessage(e.getMessage());
+		erro.setPath(request.getRequestURI());
+		erro.setMensagemDesenvolvedor("http://erros.sistemapedidos.com/422");
 		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
+		
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(erro);
 	}
 	
 	@ExceptionHandler(AuthorizationException.class)
@@ -69,10 +81,17 @@ public class ResourceExceptionHandler {
 			                                                            HttpServletRequest request){
 	
 		StandardError erro = new StandardError();
-		erro.setTitulo(e.getMessage());
-		erro.setStatus(401l);
-		erro.setMensagemDesenvolvedor("http://erros.sistemapedidos.com/401");
-		erro.setTime(System.currentTimeMillis());
+		
+		 
+		erro.setTimestamp(System.currentTimeMillis());
+		erro.setStatus(403);
+		erro.setError("Acesso negado");
+		erro.setMessage(e.getMessage());
+		erro.setPath(request.getRequestURI());
+		erro.setMensagemDesenvolvedor("http://erros.sistemapedidos.com/403");
+		
+		
+	
 		
 		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erro);
 	}
