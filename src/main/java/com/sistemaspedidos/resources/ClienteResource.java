@@ -38,6 +38,12 @@ public class ClienteResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@GetMapping(value="/email")
+	public ResponseEntity<Cliente> buscarPorEmail(@RequestParam(value = "value") String email){
+		Cliente obj = clienteService.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Cliente> update(@Valid @RequestBody ClienteDTO clienteDto , @PathVariable Integer id){
 		
